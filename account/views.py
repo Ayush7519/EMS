@@ -38,7 +38,7 @@ def get_tokens_for_user(user):
 
 # user registration view.
 class UserRegistrationView(APIView):
-    # renderer_classes = [UserRenderer]
+    renderer_classes = [UserRenderer]
 
     def post(self, request, format=None):
         serializer = UserRegistration_Serializer(data=request.data)
@@ -57,7 +57,7 @@ class UserRegistrationView(APIView):
 
 # user login view.
 class UserLoginView(APIView):
-    # renderer_classes = [UserRenderer]
+    renderer_classes = [UserRenderer]
 
     def post(self, request, format=None):
         serializer = UserLogin_Serializer(data=request.data)
@@ -84,7 +84,7 @@ class UserLoginView(APIView):
 
 # login user profile view.
 class UserProfileView(APIView):
-    # renderer_classes = [UserRenderer]
+    renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
@@ -94,7 +94,7 @@ class UserProfileView(APIView):
 
 # user password change view.
 class UserPasswordChangeView(APIView):
-    # renderer_classes = [UserRenderer]
+    renderer_classes = [UserRenderer]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
@@ -110,7 +110,7 @@ class UserPasswordChangeView(APIView):
 
 # sending the email to the user to change the password.
 class SendPassowrdEmailView(APIView):
-    # renderer_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]
 
     def post(self, request, format=None):
         serializer = SendPasswordEmail_Serializer(data=request.data)
@@ -124,7 +124,7 @@ class SendPassowrdEmailView(APIView):
 
 # user password change view through the mail.
 class UserPasswordResetView(APIView):
-    # renderer_classes = [UserRenderer]
+    renderer_classes = [UserRenderer]
 
     def post(self, request, uid, token, format=None):
         serializer = UserPasswordReset_Serializer(

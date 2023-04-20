@@ -53,12 +53,12 @@ urlpatterns = [
         name="artist search path",
     ),
     path(
-        "artist/update/<int:pk>",
+        "artist/update/<int:pk>/",
         views.ArtistUpdateView.as_view(),
         name="artist update path",
     ),
     path(
-        "artist/delete/<int:pk>",
+        "artist/delete/<int:pk>/",
         views.ArtistDeleteView.as_view(),
         name="artist delete path",
     ),
@@ -79,12 +79,12 @@ urlpatterns = [
         name="normal user search path",
     ),
     path(
-        "normal-user/update/<int:pk>",
+        "normal-user/update/<int:pk>/",
         views.NormalUserUpdateApiView.as_view(),
         name="normal user update path",
     ),
     path(
-        "normal-user/delete/<int:pk>",
+        "normal-user/delete/<int:pk>/",
         views.NormalUserDeleteApiView.as_view(),
         name="normal user delete path",
     ),
@@ -105,12 +105,12 @@ urlpatterns = [
         name="manager search path",
     ),
     path(
-        "manager/update/<int:pk>",
+        "manager/update/<int:pk>/",
         views.ManagerUpdateApiViews.as_view(),
         name="manager update path",
     ),
     path(
-        "manager/delete/<int:pk>",
+        "manager/delete/<int:pk>/",
         views.ManagerDeleteApiViews.as_view(),
         name="manager delete path",
     ),

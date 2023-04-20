@@ -20,6 +20,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("account.urls")),
+    path("", include("content_management.urls")),
     # for the swagger documentations.
     path(
         "swagger/",

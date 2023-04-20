@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",  # solve the error while connecting the frontends.
     "account",  # application name.
+    "content_management",  # application name.
     "rest_framework",  # install package name.
     "django_filters",  # install package name.
     "drf_yasg",  # for the documentation of the api.
@@ -182,6 +183,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # To disable the browserable api.
-REST_FRAMEWORK = {
-    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
-}
+# REST_FRAMEWORK = {
+#     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
+# }
