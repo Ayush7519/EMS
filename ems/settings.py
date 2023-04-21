@@ -183,6 +183,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # To disable the browserable api.
-# REST_FRAMEWORK = {
-#     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
-# }
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
+}
