@@ -24,7 +24,7 @@ def category_image_dir_path(instance, filename):
         )
 
 
-class basemodel(models.Model):
+class BaseModel(models.Model):
     GENDER_TYPE = (("Male", "male"), ("Female", "female"), ("Other", "other"))
 
     photo = models.ImageField(

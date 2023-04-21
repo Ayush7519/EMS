@@ -7,7 +7,7 @@ from ems.validations import (
     iscontactvalidator,
 )
 
-from .base import basemodel
+from .base import BaseModel
 
 
 # CUSTOME USER MANAGER:
@@ -112,7 +112,7 @@ class User(AbstractBaseUser):
 
 
 # artist model
-class Artist(basemodel):
+class Artist(BaseModel):
     PERFORMER_TYPE = (
         ("Single", "single"),
         ("Group", "group"),
@@ -131,7 +131,7 @@ class Artist(basemodel):
 
 
 # normal user model.
-class NormalUser(basemodel):
+class NormalUser(BaseModel):
     user = models.OneToOneField("User", on_delete=models.CASCADE)
 
     def __str__(self):
