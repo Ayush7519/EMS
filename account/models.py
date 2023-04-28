@@ -141,7 +141,9 @@ class NormalUser(BaseModel):
 # manager model.
 class Managers(models.Model):
     artist = models.OneToOneField("Artist", on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, blank=False, null=False)
+    name = models.CharField(
+        max_length=50, blank=False, null=False, validators=[isalphavalidator]
+    )
     email = models.EmailField(max_length=255, unique=True, blank=False, null=False)
     contact = models.BigIntegerField(
         validators=[iscontactvalidator], blank=False, null=False
