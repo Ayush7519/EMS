@@ -28,6 +28,7 @@ class ArtistModelAdmin(admin.ModelAdmin):
         "type_of_the_performer",
         "performed_in",
         "description",
+        "is_available",
         "manager",
     )
 

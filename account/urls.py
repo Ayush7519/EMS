@@ -36,6 +36,11 @@ urlpatterns = [
         views.UserPasswordResetView.as_view(),
         name="user e-password change path",
     ),
+    path(
+        "user/all/details/",
+        views.UserDetailsView.as_view(),
+        name="all user details views",
+    ),
     # artist path
     path(
         "artist/create/",

@@ -19,6 +19,7 @@ from .serializer import (
     NormalUser_Serializer,
     NormalUser_Serializer_Full_Detals,
     SendPasswordEmail_Serializer,
+    UserDetail_Serializer,
     UserLogin_Serializer,
     UserPasswordChange_Serializer,
     UserPasswordReset_Serializer,
@@ -82,6 +83,12 @@ class UserLoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# user details.
+class UserDetailsView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserDetail_Serializer
+
+
 # login user profile view.
 class UserProfileView(APIView):
     renderer_classes = [UserRenderer]
@@ -140,6 +147,7 @@ class UserPasswordResetView(APIView):
 class ArtistCreateApiView(generics.CreateAPIView):
     queryset = Artist.objects.all()
     serializer_class = Artist_Serializer
+    renderer_classes = [UserRenderer]
 
 
 # artist list.
@@ -168,6 +176,7 @@ class ArtistUpdateView(generics.UpdateAPIView):
     queryset = Artist.objects.all()
     serializer_class = Artist_Serializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]
 
 
 # artist delete.
@@ -175,6 +184,7 @@ class ArtistDeleteView(generics.DestroyAPIView):
     queryset = Artist.objects.all()
     serializer_class = Artist_Serializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]
 
 
 # NORMAL USER
@@ -182,6 +192,7 @@ class ArtistDeleteView(generics.DestroyAPIView):
 class NormalUserCreateApiView(generics.CreateAPIView):
     queryset = NormalUser.objects.all()
     serializer_class = NormalUser_Serializer
+    renderer_classes = [UserRenderer]
 
 
 # normal user list.
@@ -210,6 +221,7 @@ class NormalUserUpdateApiView(generics.UpdateAPIView):
     queryset = NormalUser.objects.all()
     serializer_class = NormalUser_Serializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]
 
 
 # normal user delete.
@@ -217,6 +229,7 @@ class NormalUserDeleteApiView(generics.DestroyAPIView):
     queryset = NormalUser.objects.all()
     serializer_class = NormalUser_Serializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]
 
 
 # MANAGER
@@ -224,6 +237,7 @@ class NormalUserDeleteApiView(generics.DestroyAPIView):
 class ManagerCreateApiViews(generics.CreateAPIView):
     queryset = Managers.objects.all()
     serializer_class = Managers_Serializer
+    renderer_classes = [UserRenderer]
 
 
 # managers list.
@@ -253,6 +267,7 @@ class ManagerUpdateApiViews(generics.UpdateAPIView):
     queryset = Managers.objects.all()
     serializer_class = Managers_Serializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]
 
 
 # manager delete.
@@ -260,3 +275,4 @@ class ManagerDeleteApiViews(generics.DestroyAPIView):
     queryset = Managers.objects.all()
     serializer_class = Managers_Serializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [UserRenderer]

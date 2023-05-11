@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "corsheaders",  # solve the error while connecting the frontends.
     "account",  # application name.
     "content_management",  # application name.
+    "emsadmin",  # application name.
     "rest_framework",  # install package name.
     "django_filters",  # install package name.
     "drf_yasg",  # for the documentation of the api.

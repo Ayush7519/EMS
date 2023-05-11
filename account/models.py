@@ -77,8 +77,8 @@ class User(AbstractBaseUser):
     )
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    is_artist = models.BooleanField(default=False)
-    is_user = models.BooleanField(default=False)
+    is_artist = models.BooleanField(default=False, blank=False, null=False)
+    is_user = models.BooleanField(default=False, blank=False, null=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -124,6 +124,7 @@ class Artist(BaseModel):
         choices=PERFORMER_TYPE, blank=False, null=False, max_length=20
     )
     description = models.TextField(null=True, blank=True)
+    is_available = models.BooleanField(default=True, blank=False, null=False)
     manager = models.BooleanField(default=False)
 
     def __str__(self):

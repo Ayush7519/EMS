@@ -1,3 +1,4 @@
+from account.renders import UserRenderer
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.filters import SearchFilter
@@ -16,6 +17,7 @@ from .serializer import Content_ManagementSerializer
 # content_management creating.
 class Content_ManagementCreateApiView(APIView):
     permission_classes = [IsAdminUser]
+    renderer_classes = [UserRenderer]
 
     def post(self, request, *args, **kwargs):
         serializer = Content_ManagementSerializer(data=request.data)
@@ -64,6 +66,7 @@ class Content_managementUpdateApiView(generics.UpdateAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
     permission_classes = [IsAdminUser]
+    renderer_classes = [UserRenderer]
 
 
 # content-management delete.
@@ -71,3 +74,4 @@ class Content_ManagementDeleteApiView(generics.DestroyAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
     permission_classes = [IsAdminUser]
+    renderer_classes = [UserRenderer]
