@@ -155,7 +155,6 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
-
 # setting of the JWT.
 from datetime import timedelta
 
@@ -181,6 +180,7 @@ SIMPLE_JWT = {
 
 # used while connecting to the frontend.
 CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
     "http://localhost:8080",
     "http://localhost:3000",
     "http://127.0.0.1:9000",

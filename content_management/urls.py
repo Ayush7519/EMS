@@ -14,8 +14,8 @@ urlpatterns = [
         name="content-management list path",
     ),
     path(
-        "content-management/list/<str:status>/",
-        views.Content_ManagementStatusListApiView.as_view(),
+        "content-management/list/search/<str:status>/",
+        views.Content_ManagementStatusListSearchApiView.as_view(),
         name="content-management based on draft path",
     ),
     path(

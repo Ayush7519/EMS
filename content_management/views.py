@@ -16,7 +16,7 @@ from .serializer import Content_ManagementSerializer
 # content_management
 # content_management creating.
 class Content_ManagementCreateApiView(APIView):
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     renderer_classes = [UserRenderer]
 
     def post(self, request, *args, **kwargs):
@@ -38,12 +38,12 @@ class Content_ManagementListApiView(generics.ListAPIView):
     filter_backends = [SearchFilter]
     search_fields = ["heading"]
     pagination_class = MyPageNumberPagination
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 # content-management draft list with search.
-class Content_ManagementStatusListApiView(APIView, PageNumberPagination):
-    permission_classes = [IsAdminUser]
+class Content_ManagementStatusListSearchApiView(APIView, PageNumberPagination):
+    # permission_classes = [IsAdminUser]
     filter_backends = (SearchFilter,)
     search_fields = ["heading"]
     page_size = 10
@@ -65,7 +65,7 @@ class Content_ManagementStatusListApiView(APIView, PageNumberPagination):
 class Content_managementUpdateApiView(generics.UpdateAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     renderer_classes = [UserRenderer]
 
 
@@ -73,5 +73,5 @@ class Content_managementUpdateApiView(generics.UpdateAPIView):
 class Content_ManagementDeleteApiView(generics.DestroyAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     renderer_classes = [UserRenderer]

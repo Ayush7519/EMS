@@ -12,3 +12,4 @@ class Util:
             from_email=os.environ.get("EMAIL_FROM"),
             to=[data["to_email"]],
         )
+        email.send()
