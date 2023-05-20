@@ -137,12 +137,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # USER MODEL REGISTRSTION:
 AUTH_USER_MODEL = "account.User"
 
-# email tasting
-EMAIL_HOST = "smtp.mailtrap.io"
-EMAIL_HOST_USER = "fd0c96a1ebe6af"
-EMAIL_HOST_PASSWORD = "756ebac815af5b"
-EMAIL_PORT = "2525"
+# # email tasting using the mail trap.
+# EMAIL_HOST = "smtp.mailtrap.io"
+# EMAIL_HOST_USER = "fd0c96a1ebe6af"
+# EMAIL_HOST_PASSWORD = "756ebac815af5b"
+# EMAIL_PORT = "2525"
 
+# email testing using the gmail.
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASS")
+EMAIL_USE_TLS = True
 
 # media url for the image path
 MEDIA_URL = "/media/"
@@ -152,6 +159,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "Documents")
 # connection of the swt system.
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        # "rest_framework.authentication.TokenAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
@@ -170,13 +179,10 @@ SIMPLE_JWT = {
     "TOKEN_TYPE_CLAIM": "token_type",
     "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
     "JTI_CLAIM": "jti",
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
-    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
-    "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
-    "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+# password change token life time settings.
+PASSWORD_RESET_TIMEOUT = 900  # 900 is in the second that is 15 min life time of the token to change the password for the user.
 
 # used while connecting to the frontend.
 CORS_ALLOWED_ORIGINS = [

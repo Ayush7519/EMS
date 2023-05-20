@@ -1,9 +1,8 @@
 from account.renders import UserRenderer
 from django.contrib.auth import authenticate
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, permissions, status
 from rest_framework.filters import SearchFilter
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -92,7 +91,7 @@ class UserDetailsView(generics.ListAPIView):
 # login user profile view.
 class UserProfileView(APIView):
     renderer_classes = [UserRenderer]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
         serializer = UserProfile_Serializer(request.user)
@@ -102,8 +101,7 @@ class UserProfileView(APIView):
 # user password change view.
 class UserPasswordChangeView(APIView):
     renderer_classes = [UserRenderer]
-    # permission_classes = [IsAuthenticated]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
         serializer = UserPasswordChange_Serializer(
@@ -156,7 +154,7 @@ class ArtistListApiView(generics.ListAPIView):
     queryset = Artist.objects.all()
     serializer_class = Artist_Serializer_Full_Details
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # artist search.
@@ -169,14 +167,14 @@ class ArtistSearchApiViews(generics.ListAPIView):
         "user__username",
     ]  # relation ma aako field lai search field ma hanlna lai chai yestari garna parxa.
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # artist update.
 class ArtistUpdateView(generics.UpdateAPIView):
     queryset = Artist.objects.all()
     serializer_class = Artist_Serializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [UserRenderer]
 
 
@@ -184,7 +182,7 @@ class ArtistUpdateView(generics.UpdateAPIView):
 class ArtistDeleteView(generics.DestroyAPIView):
     queryset = Artist.objects.all()
     serializer_class = Artist_Serializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [UserRenderer]
 
 
@@ -201,7 +199,7 @@ class NormalUserListApiView(generics.ListAPIView):
     queryset = NormalUser.objects.all()
     serializer_class = NormalUser_Serializer_Full_Detals
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # normal user search.
@@ -214,14 +212,14 @@ class NormalUserSearchApiViews(generics.ListAPIView):
         "user__username",
     ]
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # normal user update.
 class NormalUserUpdateApiView(generics.UpdateAPIView):
     queryset = NormalUser.objects.all()
     serializer_class = NormalUser_Serializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [UserRenderer]
 
 
@@ -229,7 +227,7 @@ class NormalUserUpdateApiView(generics.UpdateAPIView):
 class NormalUserDeleteApiView(generics.DestroyAPIView):
     queryset = NormalUser.objects.all()
     serializer_class = NormalUser_Serializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [UserRenderer]
 
 
@@ -246,7 +244,7 @@ class ManagerListApiViews(generics.ListAPIView):
     queryset = Managers.objects.all()
     serializer_class = Managers_Serializer_Full_Detals
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # manager search.
@@ -260,14 +258,14 @@ class ManagerSearchApiViews(generics.ListAPIView):
         "artist__user__username",
     ]
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 # manager update.
 class ManagerUpdateApiViews(generics.UpdateAPIView):
     queryset = Managers.objects.all()
     serializer_class = Managers_Serializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [UserRenderer]
 
 
@@ -275,5 +273,5 @@ class ManagerUpdateApiViews(generics.UpdateAPIView):
 class ManagerDeleteApiViews(generics.DestroyAPIView):
     queryset = Managers.objects.all()
     serializer_class = Managers_Serializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [UserRenderer]
