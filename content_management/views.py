@@ -1,9 +1,8 @@
 from account.renders import UserRenderer
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, permissions, status
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -16,7 +15,7 @@ from .serializer import Content_ManagementSerializer
 # content_management
 # content_management creating.
 class Content_ManagementCreateApiView(APIView):
-    # permission_classes = [IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     renderer_classes = [UserRenderer]
 
     def post(self, request, *args, **kwargs):
@@ -38,12 +37,12 @@ class Content_ManagementListApiView(generics.ListAPIView):
     filter_backends = [SearchFilter]
     search_fields = ["heading"]
     pagination_class = MyPageNumberPagination
-    # permission_classes = [IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
 
 
 # content-management draft list with search.
 class Content_ManagementStatusListSearchApiView(APIView, PageNumberPagination):
-    # permission_classes = [IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     filter_backends = (SearchFilter,)
     search_fields = ["heading"]
     page_size = 10
@@ -65,7 +64,7 @@ class Content_ManagementStatusListSearchApiView(APIView, PageNumberPagination):
 class Content_managementUpdateApiView(generics.UpdateAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
-    # permission_classes = [IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     renderer_classes = [UserRenderer]
 
 
@@ -73,5 +72,5 @@ class Content_managementUpdateApiView(generics.UpdateAPIView):
 class Content_ManagementDeleteApiView(generics.DestroyAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
-    # permission_classes = [IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     renderer_classes = [UserRenderer]
