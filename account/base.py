@@ -17,7 +17,7 @@ def category_image_dir_path(instance, filename):
         or str(ext).lower() == "jpg"
         or str(ext).lower() == "jpeg"
     ):
-        return "image" / filename
+        return filename
     else:
         raise serializers.ValidationError(
             "Extension Doesnot match.It should be of png,jpg,jpeg"

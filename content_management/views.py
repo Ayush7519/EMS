@@ -21,8 +21,9 @@ class Content_ManagementCreateApiView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = Content_ManagementSerializer(data=request.data)
         if serializer.is_valid():
+            # to update the model fields data after the serializer this methods is used.
+            serializer.validated_data["updated_by"] = request.user.name
             serializer.save()
-            Content_Management.objects.update(updated_by=request.user.name)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED,
