@@ -10,8 +10,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from ems.pagination import MyPageNumberPagination
 
 from .models import Artist, Managers, NormalUser, User
+from .serializer import Artist_Serializer  # UserDetail_Serializer,
 from .serializer import (
-    Artist_Serializer,  # UserDetail_Serializer,
     Artist_Serializer_Full_Details,
     Managers_Serializer,
     Managers_Serializer_Full_Detals,
@@ -81,12 +81,6 @@ class UserLoginView(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# # user details.
-# class UserDetailsView(generics.ListAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserDetail_Serializer
 
 
 # login user profile view.

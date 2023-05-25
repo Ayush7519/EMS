@@ -133,13 +133,6 @@ class UserPasswordReset_Serializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Token is not valid or Expired")
 
 
-# # user details view.
-# class UserDetail_Serializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = "__all__"
-
-
 # ARTIST
 # create serializer for the artist.
 class Artist_Serializer(serializers.ModelSerializer):
