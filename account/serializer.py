@@ -41,13 +41,6 @@ class UserLogin_Serializer(serializers.ModelSerializer):
         fields = ["email", "password"]
 
 
-# user profile serializer.
-class UserProfile_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = "__all__"
-
-
 # user password change serializer.
 class UserPasswordChange_Serializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -140,11 +133,11 @@ class UserPasswordReset_Serializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Token is not valid or Expired")
 
 
-# user details view.
-class UserDetail_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = "__all__"
+# # user details view.
+# class UserDetail_Serializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = "__all__"
 
 
 # ARTIST
@@ -192,3 +185,13 @@ class Managers_Serializer_Full_Detals(serializers.ModelSerializer):
         model = Managers
         fields = "__all__"
         depth = 2
+
+
+# user profile serializer.
+class UserProfile_Serializer(serializers.ModelSerializer):
+    artist = Artist_Serializer_Full_Details()
+    normaluser = NormalUser_Serializer_Full_Detals()
+
+    class Meta:
+        model = User
+        fields = "__all__"

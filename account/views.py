@@ -11,14 +11,13 @@ from ems.pagination import MyPageNumberPagination
 
 from .models import Artist, Managers, NormalUser, User
 from .serializer import (
-    Artist_Serializer,
+    Artist_Serializer,  # UserDetail_Serializer,
     Artist_Serializer_Full_Details,
     Managers_Serializer,
     Managers_Serializer_Full_Detals,
     NormalUser_Serializer,
     NormalUser_Serializer_Full_Detals,
     SendPasswordEmail_Serializer,
-    UserDetail_Serializer,
     UserLogin_Serializer,
     UserPasswordChange_Serializer,
     UserPasswordReset_Serializer,
@@ -84,10 +83,10 @@ class UserLoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# user details.
-class UserDetailsView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserDetail_Serializer
+# # user details.
+# class UserDetailsView(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserDetail_Serializer
 
 
 # login user profile view.

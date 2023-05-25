@@ -118,7 +118,7 @@ class Artist(BaseModel):
         ("Group", "group"),
         ("Both", "both"),
     )
-    user = models.OneToOneField("User", on_delete=models.CASCADE)
+    user = models.OneToOneField("User", on_delete=models.CASCADE, related_name="artist")
     type_of_the_performer = models.CharField(max_length=100, blank=False, null=False)
     performed_in = models.CharField(
         choices=PERFORMER_TYPE, blank=False, null=False, max_length=20
@@ -133,7 +133,9 @@ class Artist(BaseModel):
 
 # normal user model.
 class NormalUser(BaseModel):
-    user = models.OneToOneField("User", on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        "User", on_delete=models.CASCADE, related_name="normaluser"
+    )
 
     def __str__(self):
         return self.user.name
