@@ -119,4 +119,4 @@ urlpatterns = [
         views.ManagerDeleteApiViews.as_view(),
         name="manager delete path",
     ),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

@@ -6,6 +6,7 @@ from .models import Artist, Managers, NormalUser, User
 # admin registrstion of the user.
 class UserModelAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "email",
         "name",
         "username",

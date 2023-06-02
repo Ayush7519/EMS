@@ -167,29 +167,12 @@ class UserPasswordResetView(APIView):
 # Artist
 # artist creating.
 class ArtistCreateApiView(generics.CreateAPIView):
-    # queryset = Artist.objects.all()
-    # serializer_class = Artist_Serializer
     renderer_classes = [UserRenderer]
 
     def post(self, request, *args, **kwargs):
         serializer = Artist_Serializer(data=request.data)
         if serializer.is_valid():
-            ph = serializer.validated_data["photo"]
-            print(ph)
-            user = request.user.name
-            print(user)
-            ext = ph.name.split(".")[-1]
-            print(ext)
-            if (
-                str(ext).lower() == "png"
-                or str(ext).lower() == "jpg"
-                or str(ext).lower() == "jpeg"
-            ):
-                finalname = str(user) + "." + str(ext)
-                serializer.validated_data["photo"] = finalname
-                serializer.save()
-            else:
-                return Response({"msg": "Image extension is not valid"})
+            serializer.save()
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED,
