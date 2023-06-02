@@ -64,6 +64,13 @@ class UserPasswordChange_Serializer(serializers.ModelSerializer):
             )
         user.set_password(password)
         user.save()
+        # email send after the password is changed.
+        data = {
+            "subject": "Django Mail",
+            "body": user.name + " " + "Your Password Has Been Changed !!!",
+            "to_email": user.email,
+        }
+        Util.send_email(data)
         return attrs
 
 
@@ -83,7 +90,7 @@ class SendPasswordEmail_Serializer(serializers.ModelSerializer):
             print(uid)
             token = PasswordResetTokenGenerator().make_token(user)
             print("the token is:", token)
-            link = "http://127.0.0.1:8000/user/reset/" + uid + "/" + token
+            link = "http://127.0.0.1:3000/user/reset/" + uid + "/" + token
             print(link)
             # sending the mail to the user to change the password
             body = "Click the following link to change the password" + link
@@ -182,6 +189,15 @@ class Managers_Serializer_Full_Detals(serializers.ModelSerializer):
 
 # user profile serializer.
 class UserProfile_Serializer(serializers.ModelSerializer):
+    artist = Artist_Serializer_Full_Details()
+    normaluser = NormalUser_Serializer_Full_Detals()
+
+    class Meta:
+        model = User
+        fields = "__all__"
+
+
+class UserProfileUpdate_Serializer(serializers.ModelSerializer):
     artist = Artist_Serializer_Full_Details()
     normaluser = NormalUser_Serializer_Full_Detals()
 

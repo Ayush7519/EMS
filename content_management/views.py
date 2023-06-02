@@ -44,13 +44,17 @@ class Content_ManagementListApiView(generics.ListAPIView):
 # content-management draft list with search.
 class Content_ManagementStatusListSearchApiView(APIView, PageNumberPagination):
     permission_classes = [permissions.IsAdminUser]
-    filter_backends = (SearchFilter,)
-    search_fields = ["heading"]
     page_size = 10
 
     def get(self, request, status, format=None, *args, **kwargs):
         if status == "Draft" or status == "Publish":
             queryset = Content_Management.objects.filter(status=status)
+            results = self.paginate_queryset(queryset, request, view=self)
+            serializer = Content_ManagementSerializer(queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        elif status == "All":
+            queryset = Content_Management.objects.all()
             results = self.paginate_queryset(queryset, request, view=self)
             serializer = Content_ManagementSerializer(queryset, many=True)
             return self.get_paginated_response(serializer.data)

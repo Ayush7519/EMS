@@ -22,8 +22,10 @@ from .serializer import (
     UserPasswordChange_Serializer,
     UserPasswordReset_Serializer,
     UserProfile_Serializer,
+    UserProfileUpdate_Serializer,
     UserRegistration_Serializer,
 )
+from .utils import Util
 
 
 # generating the token for the user.
@@ -43,11 +45,23 @@ class UserRegistrationView(APIView):
         serializer = UserRegistration_Serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             user = serializer.save()
+            # extracting the id of the registred user.
+            uid = user.id
+            # email sending after the user is registred and saved.
+            data = {
+                "subject": "Django Email",
+                "body": user.name
+                + " "
+                + "You have been successfully registred in our Site !!!",
+                "to_email": user.email,
+            }
+            Util.send_email(data)
             token = get_tokens_for_user(user)  # for the token...
             return Response(
                 {
                     "token": token,
                     "msg": "Registration Successful",
+                    "uid": uid,
                 },
                 status=status.HTTP_201_CREATED,
             )
@@ -90,7 +104,21 @@ class UserProfileView(APIView):
 
     def get(self, request, format=None):
         serializer = UserProfile_Serializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
+
+
+# login user profile update view.
+class UserProfileUpdateView(generics.UpdateAPIView):
+    serializer_class = UserProfileUpdate_Serializer
+    renderer_classes = [UserRenderer]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user.id
+        return User.objects.filter(pk=user)
 
 
 # user password change view.
@@ -139,9 +167,33 @@ class UserPasswordResetView(APIView):
 # Artist
 # artist creating.
 class ArtistCreateApiView(generics.CreateAPIView):
-    queryset = Artist.objects.all()
-    serializer_class = Artist_Serializer
+    # queryset = Artist.objects.all()
+    # serializer_class = Artist_Serializer
     renderer_classes = [UserRenderer]
+
+    def post(self, request, *args, **kwargs):
+        serializer = Artist_Serializer(data=request.data)
+        if serializer.is_valid():
+            ph = serializer.validated_data["photo"]
+            print(ph)
+            user = request.user.name
+            print(user)
+            ext = ph.name.split(".")[-1]
+            print(ext)
+            if (
+                str(ext).lower() == "png"
+                or str(ext).lower() == "jpg"
+                or str(ext).lower() == "jpeg"
+            ):
+                finalname = str(user) + "." + str(ext)
+                serializer.validated_data["photo"] = finalname
+                serializer.save()
+            else:
+                return Response({"msg": "Image extension is not valid"})
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
 
 
 # artist list.

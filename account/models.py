@@ -124,7 +124,7 @@ class Artist(BaseModel):
         choices=PERFORMER_TYPE, blank=False, null=False, max_length=20
     )
     description = models.TextField(null=True, blank=True)
-    is_available = models.BooleanField(default=True, blank=False, null=False)
+    is_available = models.BooleanField(default=True)
     manager = models.BooleanField(default=False)
 
     def __str__(self):

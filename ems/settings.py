@@ -153,7 +153,7 @@ EMAIL_USE_TLS = True
 
 # media url for the image path
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "Documents")
+MEDIA_ROOT = os.path.join(BASE_DIR, "Photos")
 
 
 # connection of the swt system.

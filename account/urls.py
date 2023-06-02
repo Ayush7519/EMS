@@ -22,6 +22,11 @@ urlpatterns = [
         name="user profile details view path",
     ),
     path(
+        "user-profile-update/<int:pk>/",
+        views.UserProfileUpdateView.as_view(),
+        name="user profile update path",
+    ),
+    path(
         "password-change/",
         views.UserPasswordChangeView.as_view(),
         name="user password change path",
@@ -114,4 +119,4 @@ urlpatterns = [
         views.ManagerDeleteApiViews.as_view(),
         name="manager delete path",
     ),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
