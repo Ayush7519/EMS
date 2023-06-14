@@ -17,6 +17,7 @@ class UserModelAdmin(admin.ModelAdmin):
         "is_active",
         "is_admin",
         "artist",
+        "normaluser",
     )
 
 

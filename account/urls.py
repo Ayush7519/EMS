@@ -5,7 +5,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # user login path.
+    # USER ACCOUNT MANAGEMENT PATH.
     path(
         "register/",
         views.UserRegistrationView.as_view(),
@@ -19,7 +19,7 @@ urlpatterns = [
     path(
         "user-profile/",
         views.UserProfileView.as_view(),
-        name="user profile details view path",
+        name="login user profile details view path",
     ),
     path(
         "user-profile-update/<int:pk>/",
@@ -41,7 +41,28 @@ urlpatterns = [
         views.UserPasswordResetView.as_view(),
         name="user e-password change path",
     ),
-    # artist path
+    # USERS DATA FROM THE DATABASE FOR THE ADMIN.
+    path(
+        "all-user-data/",
+        views.AllUserListApiView.as_view(),
+        name="all user data from the database",
+    ),
+    path(
+        "all-user-data-search/",
+        views.AllUserSearchApiView.as_view(),
+        name="path searching the user from the database",
+    ),
+    path(
+        "all-user-data-update/<int:pk>/",
+        views.AllUserUpdateApiView.as_view(),
+        name="path for updating the data of the user from the admin pannel.",
+    ),
+    path(
+        "all-user-data-delete/<int:pk>/",
+        views.AllUserDeleteApiView.as_view(),
+        name="path deleting the data of the user from the admin pannel",
+    ),
+    # ARTIST PATHS.
     path(
         "artist/create/",
         views.ArtistCreateApiView.as_view(),
@@ -67,7 +88,7 @@ urlpatterns = [
         views.ArtistDeleteView.as_view(),
         name="artist delete path",
     ),
-    # normal user path
+    # NORMAL USER PATHS.
     path(
         "normal-user/create/",
         views.NormalUserCreateApiView().as_view(),
@@ -93,7 +114,7 @@ urlpatterns = [
         views.NormalUserDeleteApiView.as_view(),
         name="normal user delete path",
     ),
-    # manager path
+    # MANAGER PATHS.
     path(
         "manager/create/",
         views.ManagerCreateApiViews.as_view(),

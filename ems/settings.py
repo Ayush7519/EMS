@@ -190,9 +190,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000",
     "http://127.0.0.1:9000",
+    "http://127.0.0.1:3000",
 ]
 
-# To disable the browserable api.
-REST_FRAMEWORK = {
-    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
-}
+# # To disable the browserable api.
+# REST_FRAMEWORK = {
+#     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
+# }

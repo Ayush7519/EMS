@@ -12,6 +12,7 @@ from ems.pagination import MyPageNumberPagination
 from .models import Artist, Managers, NormalUser, User
 from .serializer import Artist_Serializer  # UserDetail_Serializer,
 from .serializer import (
+    AllUserList_Serializer,
     Artist_Serializer_Full_Details,
     Managers_Serializer,
     Managers_Serializer_Full_Detals,
@@ -121,6 +122,43 @@ class UserProfileUpdateView(generics.UpdateAPIView):
         return User.objects.filter(pk=user)
 
 
+# login user full data update view.
+# class UserLoginProfileUpdateView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     renderer_classes = [UserRenderer]
+
+#     def patch(self, request, *args, **kwargs):
+#         user_id = self.request.user.pk
+#         artist_id = self.request.user.artist.pk
+#         user = User.objects.get(pk=user_id)
+#         artist = Artist.objects.get(pk=artist_id)
+#         user_data = request.data.get("user")
+#         print(user_data)
+#         artist_data = request.data.get("artist")
+#         print(artist_data)
+#         user_serializer = UserProfileUpdate_Serializer(user, data=user_data)
+#         artist_serializer = Artist_Serializer(artist, data=artist_data)
+#         if user_serializer.is_valid(
+#             raise_exception=True
+#         ) and artist_serializer.is_valid(raise_exception=True):
+#             user_serializer.save()
+#             artist_serializer.save()
+#             return Response(
+#                 {
+#                     "user": user_serializer.data,
+#                     "artist": artist_serializer.data,
+#                 },
+#                 status=status.HTTP_201_CREATED,
+#             )
+#         return Response(
+#             {
+#                 "user": user_serializer.errors,
+#                 "artist": artist_serializer.errors,
+#             },
+#             status=status.HTTP_400_BAD_REQUEST,
+#         )
+
+
 # user password change view.
 class UserPasswordChangeView(APIView):
     renderer_classes = [UserRenderer]
@@ -164,6 +202,45 @@ class UserPasswordResetView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# USERS
+# all user data from the database.
+class AllUserListApiView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = AllUserList_Serializer
+    pagination_class = MyPageNumberPagination
+    permission_classes = [permissions.IsAdminUser]
+
+
+# searching the user from the database.
+class AllUserSearchApiView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = AllUserList_Serializer
+    filter_backends = [SearchFilter]
+    search_fields = [
+        "name",
+        "username",
+        # "email",
+    ]
+    pagination_class = MyPageNumberPagination
+    # renderer_classes = [UserRenderer]
+
+
+# updating the data of the user from the admin pannel.
+class AllUserUpdateApiView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = AllUserList_Serializer
+    permission_classes = [permissions.IsAdminUser]
+    renderer_classes = [UserRenderer]
+
+
+# deleting the data of the user from the admin pannel.
+class AllUserDeleteApiView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = AllUserList_Serializer
+    permission_classes = [permissions.IsAdminUser]
+    renderer_classes = [UserRenderer]
+
+
 # Artist
 # artist creating.
 class ArtistCreateApiView(generics.CreateAPIView):
@@ -171,7 +248,13 @@ class ArtistCreateApiView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = Artist_Serializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
+            ward_data = serializer.validated_data["ward"]
+            if ward_data <= 0:
+                return Response(
+                    {"msg": "ward value cannot be 0 or less than 0"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             serializer.save()
             return Response(
                 serializer.data,
@@ -219,9 +302,22 @@ class ArtistDeleteView(generics.DestroyAPIView):
 # NORMAL USER
 # normal user create.
 class NormalUserCreateApiView(generics.CreateAPIView):
-    queryset = NormalUser.objects.all()
-    serializer_class = NormalUser_Serializer
     renderer_classes = [UserRenderer]
+
+    def post(self, request, *args, **kwargs):
+        serializer = NormalUser_Serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            ward_data = serializer.validated_data["ward"]
+            if ward_data <= 0:
+                return Response(
+                    {"msg": "ward value cannot be 0 or less than 0"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
 
 
 # normal user list.

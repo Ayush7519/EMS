@@ -67,7 +67,11 @@ class UserPasswordChange_Serializer(serializers.ModelSerializer):
         # email send after the password is changed.
         data = {
             "subject": "Django Mail",
-            "body": user.name + " " + "Your Password Has Been Changed !!!",
+            "body": "Hii"
+            + " "
+            + user.name
+            + " "
+            + "Your Password Has Been Changed !!!",
             "to_email": user.email,
         }
         Util.send_email(data)
@@ -187,7 +191,8 @@ class Managers_Serializer_Full_Detals(serializers.ModelSerializer):
         depth = 2
 
 
-# user profile serializer.
+# USER Profile
+# login user profile serializer.
 class UserProfile_Serializer(serializers.ModelSerializer):
     artist = Artist_Serializer_Full_Details()
     normaluser = NormalUser_Serializer_Full_Detals()
@@ -197,6 +202,7 @@ class UserProfile_Serializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# login user profile update serializer.
 class UserProfileUpdate_Serializer(serializers.ModelSerializer):
     artist = Artist_Serializer_Full_Details()
     normaluser = NormalUser_Serializer_Full_Detals()
@@ -204,3 +210,26 @@ class UserProfileUpdate_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
+# all user data from the database serializer.
+class AllUserList_Serializer(serializers.ModelSerializer):
+    artist = serializers.StringRelatedField()
+    normaluser = serializers.StringRelatedField()
+
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "email",
+            "name",
+            "username",
+            "date_created",
+            "date_updated",
+            "is_artist",
+            "is_user",
+            "is_active",
+            "is_admin",
+            "artist",
+            "normaluser",
+        ]

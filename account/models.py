@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 from ems.validations import (
@@ -128,7 +128,7 @@ class Artist(BaseModel):
     manager = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 
 # normal user model.
@@ -138,7 +138,7 @@ class NormalUser(BaseModel):
     )
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 
 # manager model.

@@ -17,7 +17,7 @@ def category_image_dir_path(instance, filename):
         or str(ext).lower() == "jpg"
         or str(ext).lower() == "jpeg"
     ):
-        return "mypics" / filename
+        return filename
     else:
         raise serializers.ValidationError(
             "Extension Doesnot match.It should be of png,jpg,jpeg"
@@ -37,7 +37,7 @@ class BaseModel(models.Model):
     province = models.CharField(max_length=100, blank=False)
     district = models.CharField(max_length=100, blank=False)
     municipality = models.CharField(max_length=100, blank=False)
-    ward = models.IntegerField(blank=False)
+    ward = models.PositiveIntegerField(blank=False)
 
     class Meta:
         abstract = True

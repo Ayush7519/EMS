@@ -9,13 +9,13 @@ urlpatterns = [
         name="content-management create path",
     ),
     path(
-        "content-management/list/",
-        views.Content_ManagementListApiView.as_view(),
+        "content-management/search/",
+        views.Content_ManagementSearchApiView.as_view(),
         name="content-management list path",
     ),
     path(
-        "content-management/list/search/<str:status>/",
-        views.Content_ManagementStatusListSearchApiView.as_view(),
+        "content-management/list/<str:status>/",
+        views.Content_ManagementStatusListApiView.as_view(),
         name="content-management based on draft path",
     ),
     path(

@@ -31,8 +31,8 @@ class Content_ManagementCreateApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# content-management list.
-class Content_ManagementListApiView(generics.ListAPIView):
+# content-management list with search.
+class Content_ManagementSearchApiView(generics.ListAPIView):
     queryset = Content_Management.objects.all()
     serializer_class = Content_ManagementSerializer
     filter_backends = [SearchFilter]
@@ -41,8 +41,8 @@ class Content_ManagementListApiView(generics.ListAPIView):
     permission_classes = [permissions.IsAdminUser]
 
 
-# content-management draft list with search.
-class Content_ManagementStatusListSearchApiView(APIView, PageNumberPagination):
+# content-management draft list only.
+class Content_ManagementStatusListApiView(APIView, PageNumberPagination):
     permission_classes = [permissions.IsAdminUser]
     page_size = 10
 
@@ -50,13 +50,13 @@ class Content_ManagementStatusListSearchApiView(APIView, PageNumberPagination):
         if status == "Draft" or status == "Publish":
             queryset = Content_Management.objects.filter(status=status)
             results = self.paginate_queryset(queryset, request, view=self)
-            serializer = Content_ManagementSerializer(queryset, many=True)
+            serializer = Content_ManagementSerializer(results, many=True)
             return self.get_paginated_response(serializer.data)
 
         elif status == "All":
             queryset = Content_Management.objects.all()
             results = self.paginate_queryset(queryset, request, view=self)
-            serializer = Content_ManagementSerializer(queryset, many=True)
+            serializer = Content_ManagementSerializer(results, many=True)
             return self.get_paginated_response(serializer.data)
 
         else:
