@@ -161,8 +161,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "Photos")
 # connection of the swt system.
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        # "rest_framework.authentication.TokenAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
@@ -195,7 +193,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
-# # To disable the browserable api.
-# REST_FRAMEWORK = {
-#     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
-# }
+# To disable the browserable api.
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",)
+}

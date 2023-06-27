@@ -12,6 +12,7 @@ from ems.pagination import MyPageNumberPagination
 from .models import Artist, Managers, NormalUser, User
 from .serializer import Artist_Serializer  # UserDetail_Serializer,
 from .serializer import (
+    Alluserdelete_Serializer,
     AllUserList_Serializer,
     Artist_Serializer_Full_Details,
     Managers_Serializer,
@@ -236,7 +237,7 @@ class AllUserUpdateApiView(generics.UpdateAPIView):
 # deleting the data of the user from the admin pannel.
 class AllUserDeleteApiView(generics.DestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = AllUserList_Serializer
+    serializer_class = Alluserdelete_Serializer
     permission_classes = [permissions.IsAdminUser]
     renderer_classes = [UserRenderer]
 

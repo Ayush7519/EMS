@@ -233,3 +233,10 @@ class AllUserList_Serializer(serializers.ModelSerializer):
             "artist",
             "normaluser",
         ]
+
+
+# user delete path serializer.
+class Alluserdelete_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
