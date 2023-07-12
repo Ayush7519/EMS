@@ -220,6 +220,8 @@ class AllUserSearchApiView(generics.ListAPIView):
     search_fields = [
         "name",
         "username",
+        # can add the user id in the search field if necessary.
+        # "id",
         # "email",
     ]
     pagination_class = MyPageNumberPagination
@@ -229,7 +231,7 @@ class AllUserSearchApiView(generics.ListAPIView):
 # updating the data of the user from the admin pannel.
 class AllUserUpdateApiView(generics.UpdateAPIView):
     queryset = User.objects.all()
-    serializer_class = AllUserList_Serializer
+    serializer_class = Alluserdelete_Serializer
     permission_classes = [permissions.IsAdminUser]
     renderer_classes = [UserRenderer]
 
