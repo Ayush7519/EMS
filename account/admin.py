@@ -27,6 +27,7 @@ admin.site.register(User, UserModelAdmin)
 # admin registration of the artist.
 class ArtistModelAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "user",
         "type_of_the_performer",
         "performed_in",

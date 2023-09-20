@@ -56,6 +56,7 @@ class Event(models.Model):
         null=False,
         blank=False,
     )
+    event_completed=models.BooleanField(default=False)
 
     def __str__(self):
         return self.event_name

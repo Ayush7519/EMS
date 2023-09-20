@@ -27,4 +27,32 @@ urlpatterns = [
         views.SponserDeleteApiView.as_view(),
         name="sponser delete path",
     ),
+    #EVENT.
+    path(
+        "event/create/",views.EventCreateApiView.as_view(),
+        name="event creating path",
+    ),
+    path(
+        "event/complete/<int:event_id>/",
+        views.EventCompleteApiView.as_view(),
+        name="event complete path to change the event data automatically"
+    ),
+
+    path(
+        "event/list/",
+        views.EventListApiView.as_view(),
+        name="event details list path"
+    ),
+    
+    path(
+        "event/delete/<int:pk>/",
+        views.EventDeleteApiView.as_view(),
+        name="event delete path",
+    ),
+
+    path(
+        "event/search/",
+        views.EventSearchApiView.as_view(),
+        name="event search path",
+    ),
 ]

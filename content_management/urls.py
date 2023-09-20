@@ -1,5 +1,6 @@
-from content_management import views
 from django.urls import path
+
+from content_management import views
 
 urlpatterns = [
     # content-management path

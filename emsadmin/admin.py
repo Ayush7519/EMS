@@ -19,6 +19,7 @@ admin.site.register(Sponser, SponserAdmin)
 # Event model register in the admin.
 class EventAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "event_name",
         "date",
         "time",
@@ -27,6 +28,7 @@ class EventAdmin(admin.ModelAdmin):
         "capacity",
         "entry_fee",
         "sponser",
+        "event_completed",
     )
 
 
