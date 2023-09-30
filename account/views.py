@@ -1,5 +1,11 @@
 from django.contrib.auth import authenticate
 from django.shortcuts import render
+from django.utils.encoding import (
+    DjangoUnicodeDecodeError,
+    force_bytes,
+    smart_str,
+)
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import generics, permissions, status
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
@@ -202,6 +208,35 @@ class UserPasswordResetView(APIView):
         if serializer.is_valid(raise_exception=True):
             return Response({"msg": "Password Reset Sucessfully"})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# email button.
+class EmailButton_View(APIView):
+    renderer_classes = [UserRenderer]
+
+    def post(self, request, pk, fromat=None):
+        try:
+            artist_info = Artist.objects.get(id=pk)
+            em = artist_info.user.email
+            uid = urlsafe_base64_encode(force_bytes(pk))
+            print(em)
+            link = "http://127.0.0.1:3000/event/request/" + uid
+            body = "mail form the AB Event..." + link
+            data = {
+                "subject": "Mail from the AB Events",
+                "body": body,
+                "to_email": em,
+            }
+            Util.send_email(data)
+        except Artist.DoesNotExist:
+            return Response(
+                {"msg": "The Artist is not present."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        return Response(
+            {"msg": "E-mail has been sucessfully send."},
+            status=status.HTTP_200_OK,
+        )
 
 
 # USERS

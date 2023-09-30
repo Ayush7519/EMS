@@ -140,4 +140,10 @@ urlpatterns = [
         views.ManagerDeleteApiViews.as_view(),
         name="manager delete path",
     ),
+    # rout to send the mail to the indivisual artist.
+    path(
+        "send-email/<int:pk>/",
+        views.EmailButton_View.as_view(),
+        name="path to send the email to the user",
+    ),
 ]

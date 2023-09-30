@@ -23,11 +23,11 @@ class EventAdmin(admin.ModelAdmin):
         "event_name",
         "date",
         "time",
-        "artist",
+        # "artist",
         "location",
         "capacity",
         "entry_fee",
-        "sponser",
+        # "sponser",
         "event_completed",
     )
 

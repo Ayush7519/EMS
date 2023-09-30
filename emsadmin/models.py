@@ -1,6 +1,6 @@
-from account.models import Artist
 from django.db import models
 
+from account.models import Artist
 from ems.validations import isalphanumericalvalidator, isalphavalidator
 
 
@@ -41,22 +41,17 @@ class Event(models.Model):
     )
     date = models.DateField(null=False, blank=False)
     time = models.TimeField(null=False, blank=False)
-    artist = models.OneToOneField(
+    # this is the place to change in the host api.
+    artist = models.ManyToManyField(
         Artist,
-        on_delete=models.CASCADE,
-        null=False,
-        blank=False,
     )
     location = models.CharField(max_length=100, null=False, blank=False)
     capacity = models.BigIntegerField(null=False, blank=False)
     entry_fee = models.BigIntegerField(null=False, blank=False)
-    sponser = models.ForeignKey(
+    sponser = models.ManyToManyField(
         Sponser,
-        on_delete=models.CASCADE,
-        null=False,
-        blank=False,
     )
-    event_completed=models.BooleanField(default=False)
+    event_completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.event_name
