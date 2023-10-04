@@ -21,10 +21,15 @@ urlpatterns = [
         views.UserProfileView.as_view(),
         name="login user profile details view path",
     ),
+    # path(
+    #     "user-profile-update/<int:pk>/",
+    #     views.UserProfileUpdateView.as_view(),
+    #     name="user profile update path",
+    # ),
     path(
-        "user-profile-update/<int:pk>/",
-        views.UserProfileUpdateView.as_view(),
-        name="user profile update path",
+        "login-user-profile-update/<str:name>/",
+        views.UserLoginProfileFullUpdateView.as_view(),
+        name="login user full detail update view.",
     ),
     path(
         "password-change/",
@@ -140,7 +145,7 @@ urlpatterns = [
         views.ManagerDeleteApiViews.as_view(),
         name="manager delete path",
     ),
-    # rout to send the mail to the indivisual artist.
+    # route to send the mail to the indivisual artist.
     path(
         "send-email/<int:pk>/",
         views.EmailButton_View.as_view(),

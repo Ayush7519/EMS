@@ -29,4 +29,9 @@ urlpatterns = [
         views.Content_ManagementDeleteApiView.as_view(),
         name="content-management delete path",
     ),
+    path(
+        "event-management/<str:title_name>/",
+        views.Contetn_Manageent_ButtonListApiView.as_view(),
+        name="path to search the content for the frontend",
+    ),
 ]

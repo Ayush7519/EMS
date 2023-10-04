@@ -246,3 +246,29 @@ class Alluserdelete_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
+# user full profile update serializer.
+class UserLoginProfileFull_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email", "name", "username", "is_artist", "is_user"]
+
+
+class ArtistLoginProfileFull_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = [
+            "type_of_the_performer",
+            "performed_in",
+            "description",
+            "is_available",
+            "manager",
+            "contact",
+            "photo",
+            "gender",
+            "ward",
+            "municipality",
+            "district",
+            "province",
+        ]

@@ -61,7 +61,7 @@ class Content_ManagementStatusListApiView(APIView, PageNumberPagination):
 
         else:
             return Response(
-                {"error": "Check your status.That doesn't match our status"}
+                {"msg": "Check your status.That doesn't match our status"}
             )
 
 
@@ -79,3 +79,30 @@ class Content_ManagementDeleteApiView(generics.DestroyAPIView):
     serializer_class = Content_ManagementSerializer
     permission_classes = [permissions.IsAdminUser]
     renderer_classes = [UserRenderer]
+
+
+# content-management for the front end user.
+class Contetn_Manageent_ButtonListApiView(APIView):
+    renderer_classes = [UserRenderer]
+
+    def get(self, request, title_name, *args, **kwargs):
+        if (
+            title_name == "Home"
+            or title_name == "About"
+            or title_name == "Blog"
+        ):
+            queryset = Content_Management.objects.filter(
+                heading=title_name
+            ).order_by("-date_created")
+            serializer = Content_ManagementSerializer(queryset, many=True)
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {
+                    "msg": "Oops the title your are requesting is not in our data."
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )

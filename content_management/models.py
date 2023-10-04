@@ -8,8 +8,17 @@ class Content_Management(models.Model):
         ("Draft", "draft"),
         ("Publish", "publish"),
     )
+    HEADING_CHOICES = (
+        ("Home", "home"),
+        ("About", "about"),
+        ("Blog", "blog"),
+    )
     heading = models.CharField(
-        max_length=50, null=False, blank=False, validators=[isalphavalidator]
+        max_length=50,
+        null=False,
+        blank=False,
+        validators=[isalphavalidator],
+        choices=HEADING_CHOICES,
     )
     content = models.TextField(null=False, blank=False)
     date_created = models.DateTimeField(auto_now_add=True)

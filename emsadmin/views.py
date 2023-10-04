@@ -142,8 +142,8 @@ class EventSearchApiView(generics.ListAPIView):
         "event_name",
         "date",
         "time",
-        "artist__name",
-        "artist__username",
+        "artist__user__name",
+        "artist__user__username",
         "location",
     ]
     pagination_class = MyPageNumberPagination

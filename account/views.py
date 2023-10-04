@@ -21,12 +21,14 @@ from .serializer import (
     Alluserdelete_Serializer,
     AllUserList_Serializer,
     Artist_Serializer_Full_Details,
+    ArtistLoginProfileFull_Serializer,
     Managers_Serializer,
     Managers_Serializer_Full_Detals,
     NormalUser_Serializer,
     NormalUser_Serializer_Full_Detals,
     SendPasswordEmail_Serializer,
     UserLogin_Serializer,
+    UserLoginProfileFull_Serializer,
     UserPasswordChange_Serializer,
     UserPasswordReset_Serializer,
     UserProfile_Serializer,
@@ -129,41 +131,52 @@ class UserProfileUpdateView(generics.UpdateAPIView):
         return User.objects.filter(pk=user)
 
 
-# login user full data update view.
-# class UserLoginProfileUpdateView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#     renderer_classes = [UserRenderer]
+# login user full profile update view.
+class UserLoginProfileFullUpdateView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [permissions.IsAuthenticated]
 
-#     def patch(self, request, *args, **kwargs):
-#         user_id = self.request.user.pk
-#         artist_id = self.request.user.artist.pk
-#         user = User.objects.get(pk=user_id)
-#         artist = Artist.objects.get(pk=artist_id)
-#         user_data = request.data.get("user")
-#         print(user_data)
-#         artist_data = request.data.get("artist")
-#         print(artist_data)
-#         user_serializer = UserProfileUpdate_Serializer(user, data=user_data)
-#         artist_serializer = Artist_Serializer(artist, data=artist_data)
-#         if user_serializer.is_valid(
-#             raise_exception=True
-#         ) and artist_serializer.is_valid(raise_exception=True):
-#             user_serializer.save()
-#             artist_serializer.save()
-#             return Response(
-#                 {
-#                     "user": user_serializer.data,
-#                     "artist": artist_serializer.data,
-#                 },
-#                 status=status.HTTP_201_CREATED,
-#             )
-#         return Response(
-#             {
-#                 "user": user_serializer.errors,
-#                 "artist": artist_serializer.errors,
-#             },
-#             status=status.HTTP_400_BAD_REQUEST,
-#         )
+    def put(self, request, name, *args, **kwargs):
+        if name == "artist":
+            user = self.request.user
+            user_id = user.id
+            user_artist_id = user.artist.id
+            try:
+                user_info = User.objects.get(id=user_id)
+                user_artist_info = Artist.objects.get(id=user_artist_id)
+            except (User.DoesNotExist, Artist.DoesNotExist):
+                return Response(
+                    {"msg": "Login User Data Not Found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            # now serialixing and valaditing the data for the both models.
+            user_serializer_class = UserLoginProfileFull_Serializer(
+                user_info,
+                data=request.data,
+                partial=True,
+            )
+            artist_serializer_class = ArtistLoginProfileFull_Serializer(
+                user_artist_info,
+                data=request.data,
+                partial=True,
+            )
+            if user_serializer_class.is_valid(
+                raise_exception=True
+            ) and artist_serializer_class.is_valid(raise_exception=True):
+                user_serializer_class.save()
+                artist_serializer_class.save()
+                return Response(
+                    {"msg": "Data Has Been Sucessfully Updated."},
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {"msg": "Validation error."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        else:
+            return Response({"msg": "user not found here.."})
 
 
 # user password change view.
