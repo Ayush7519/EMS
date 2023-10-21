@@ -1,4 +1,5 @@
 from django.urls import path
+
 from emsadmin import views
 
 urlpatterns = [
@@ -27,32 +28,35 @@ urlpatterns = [
         views.SponserDeleteApiView.as_view(),
         name="sponser delete path",
     ),
-    #EVENT.
+    # EVENT.
     path(
-        "event/create/",views.EventCreateApiView.as_view(),
+        "event/create/",
+        views.EventCreateApiView.as_view(),
         name="event creating path",
     ),
     path(
         "event/complete/<int:event_id>/",
         views.EventCompleteApiView.as_view(),
-        name="event complete path to change the event data automatically"
+        name="event complete path to change the event data automatically",
     ),
-
     path(
         "event/list/",
         views.EventListApiView.as_view(),
-        name="event details list path"
+        name="event details list path",
     ),
-    
     path(
         "event/delete/<int:pk>/",
         views.EventDeleteApiView.as_view(),
         name="event delete path",
     ),
-
     path(
         "event/search/",
         views.EventSearchApiView.as_view(),
         name="event search path",
+    ),
+    path(
+        "event/choice/<str:choice>/",
+        views.EventOptionApiView.as_view(),
+        name="yesma chai aaja ko rw aaja paxi ko event ko list matrw aauxa",
     ),
 ]

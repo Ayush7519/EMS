@@ -3,6 +3,12 @@ from django.urls import path
 from content_management import views
 
 urlpatterns = [
+    # heading path
+    path(
+        "dynamic-heading/list/",
+        views.HeadingListApiView.as_view(),
+        name="path to get the heading for the dynamic home page",
+    ),
     # content-management path
     path(
         "content-management/create/",
@@ -30,7 +36,7 @@ urlpatterns = [
         name="content-management delete path",
     ),
     path(
-        "event-management/<str:title_name>/",
+        "event-management/<int:pk>/",
         views.Contetn_Manageent_ButtonListApiView.as_view(),
         name="path to search the content for the frontend",
     ),

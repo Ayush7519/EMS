@@ -43,6 +43,7 @@ admin.site.register(Artist, ArtistModelAdmin)
 # admin registration of the normal-user.
 class Normal_UserModelAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "user",
         "photo",
         "contact",

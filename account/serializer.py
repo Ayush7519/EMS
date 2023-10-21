@@ -272,3 +272,9 @@ class ArtistLoginProfileFull_Serializer(serializers.ModelSerializer):
             "district",
             "province",
         ]
+
+
+class NormalUserLoginProfileFull_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = NormalUser
+        fields = "__all__"

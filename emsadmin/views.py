@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 from rest_framework import generics, status
 from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -182,3 +185,51 @@ class EventDeleteApiView(APIView):
             {"msg": "Data has been sucessfully deleted."},
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
+# event data based on today ad upcomming.
+class EventOptionApiView(APIView, PageNumberPagination):
+    renderer_classes = [UserRenderer]
+    page_size = 20
+
+    def get(self, request, choice, *args, **kwargs):
+        current_date = datetime.now()
+        next_day_current_date = current_date + timedelta(days=1)
+        if choice == "today":
+            event_info = Event.objects.filter(date=current_date)
+            print(event_info)
+            if event_info.exists():
+                page_result = self.paginate_queryset(
+                    event_info,
+                    request,
+                    view=self,
+                )
+                serializer = EventList_Serializer(page_result, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            else:
+                return Response(
+                    {"msg": "Oops we doesnot have any events today!!!!"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        elif choice == "upcome":
+            event_nxt_day = Event.objects.filter(date__gt=current_date)
+            print(event_nxt_day)
+            if event_nxt_day.exists():
+                page_result = self.paginate_queryset(
+                    event_nxt_day,
+                    request,
+                    view=self,
+                )
+                nxt_serializer = EventList_Serializer(page_result, many=True)
+                return self.get_paginated_response(nxt_serializer.data)
+            else:
+                return Response(
+                    {
+                        "msg": "Oops we doesnot have any events in upcomming days !!!!"
+                    },
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+        else:
+            return Response("oops you entered the wrong data")

@@ -21,11 +21,6 @@ urlpatterns = [
         views.UserProfileView.as_view(),
         name="login user profile details view path",
     ),
-    # path(
-    #     "user-profile-update/<int:pk>/",
-    #     views.UserProfileUpdateView.as_view(),
-    #     name="user profile update path",
-    # ),
     path(
         "login-user-profile-update/<str:name>/",
         views.UserLoginProfileFullUpdateView.as_view(),

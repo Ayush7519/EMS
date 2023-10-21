@@ -26,6 +26,7 @@ from .serializer import (
     Managers_Serializer_Full_Detals,
     NormalUser_Serializer,
     NormalUser_Serializer_Full_Detals,
+    NormalUserLoginProfileFull_Serializer,
     SendPasswordEmail_Serializer,
     UserLogin_Serializer,
     UserLoginProfileFull_Serializer,
@@ -89,12 +90,16 @@ class UserLoginView(APIView):
             password = serializer.data.get("password")
             user = authenticate(email=email, password=password)
             user_type = user.is_admin
+            user_artist = user.is_artist
+            user_nrmuser = user.is_user
             if user is not None:
                 token = get_tokens_for_user(user)
                 return Response(
                     {
                         "token": token,
                         "user_is_admin": user_type,
+                        "artist": user_artist,
+                        "nrmuser": user_nrmuser,
                         "msg": "Login Successfully",
                     },
                     status=status.HTTP_200_OK,
@@ -118,17 +123,6 @@ class UserProfileView(APIView):
             serializer.data,
             status=status.HTTP_200_OK,
         )
-
-
-# login user profile update view.
-class UserProfileUpdateView(generics.UpdateAPIView):
-    serializer_class = UserProfileUpdate_Serializer
-    renderer_classes = [UserRenderer]
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user.id
-        return User.objects.filter(pk=user)
 
 
 # login user full profile update view.
@@ -175,8 +169,48 @@ class UserLoginProfileFullUpdateView(APIView):
                     {"msg": "Validation error."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+        elif name == "user":
+            user = self.request.user
+            user_id = user.id
+            user_nrmuser_id = user.normaluser.id
+            try:
+                user_info = User.objects.get(id=user_id)
+                user_nrmuser_info = NormalUser.objects.get(id=user_nrmuser_id)
+            except (User.DoesNotExist, NormalUser.DoesNotExist):
+                return Response(
+                    {"msg": "Login User Data Not Found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            # now serialixing and valaditing the data for the both models.
+            user_serializer_class = UserLoginProfileFull_Serializer(
+                user_info,
+                data=request.data,
+                partial=True,
+            )
+            normaluser_serializer_class = NormalUserLoginProfileFull_Serializer(
+                user_nrmuser_info,
+                data=request.data,
+                partial=True,
+            )
+            if user_serializer_class.is_valid(
+                raise_exception=True
+            ) and normaluser_serializer_class.is_valid(raise_exception=True):
+                user_serializer_class.save()
+                normaluser_serializer_class.save()
+                return Response(
+                    {"msg": "Data Has Been Sucessfully Updated."},
+                    status=status.HTTP_200_OK,
+                )
+            else:
+                return Response(
+                    {"msg": "Validation error."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         else:
-            return Response({"msg": "user not found here.."})
+            return Response(
+                {"msg": "Invalid user type!!!"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 
 # user password change view.

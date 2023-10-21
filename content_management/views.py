@@ -8,8 +8,27 @@ from rest_framework.views import APIView
 from account.renders import UserRenderer
 from ems.pagination import MyPageNumberPagination
 
-from .models import Content_Management
-from .serializer import Content_ManagementSerializer
+from .models import Content_Management, Heading
+from .serializer import (
+    Content_ManagementListSerializer,
+    Content_ManagementSerializer,
+    HeadingSerializer,
+)
+
+
+# heading
+# heading created.
+class HeadingCreateApiView(generics.CreateAPIView):
+    renderer_classes = [UserRenderer]
+    queryset = Heading.objects.all()
+    serializer_class = HeadingSerializer
+
+
+# heading list.
+class HeadingListApiView(generics.ListAPIView):
+    renderer_classes = [UserRenderer]
+    queryset = Heading.objects.all()
+    serializer_class = HeadingSerializer
 
 
 # content_management
@@ -81,28 +100,25 @@ class Content_ManagementDeleteApiView(generics.DestroyAPIView):
     renderer_classes = [UserRenderer]
 
 
+# this for making the dynamic webpage.
 # content-management for the front end user.
 class Contetn_Manageent_ButtonListApiView(APIView):
     renderer_classes = [UserRenderer]
 
-    def get(self, request, title_name, *args, **kwargs):
-        if (
-            title_name == "Home"
-            or title_name == "About"
-            or title_name == "Blog"
-        ):
-            queryset = Content_Management.objects.filter(
-                heading=title_name
-            ).order_by("-date_created")
-            serializer = Content_ManagementSerializer(queryset, many=True)
+    def get(self, request, pk, *args, **kwargs):
+        print(pk)
+        try:
+            heading_info = Heading.objects.get(id=pk)
+            print(heading_info)
+        except Heading.DoesNotExist:
             return Response(
-                serializer.data,
-                status=status.HTTP_200_OK,
-            )
-        else:
-            return Response(
-                {
-                    "msg": "Oops the title your are requesting is not in our data."
-                },
+                {"msg": "Searched Heading is not available"},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        cms_info = Content_Management.objects.filter(heading=heading_info)
+        print(cms_info)
+        serializer = Content_ManagementListSerializer(cms_info, many=True)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
