@@ -5,6 +5,25 @@ from account.models import Artist
 from ems.validations import isalphanumericalvalidator, isalphavalidator
 
 
+def category_image_dir_path(instance, filename):
+    event_name = instance.name
+    img = instance.photo  # name of the image.
+    ext = img.name.split(".")[-1]  # extracting the image extensions
+    filename = str(event_name) + "." + str(ext)
+    # print(filename)
+    # validating the image extension.
+    if (
+        str(ext).lower() == "png"
+        or str(ext).lower() == "jpg"
+        or str(ext).lower() == "jpeg"
+    ):
+        return filename
+    else:
+        raise serializers.ValidationError(
+            "Extension Doesnot match.It should be of png,jpg,jpeg"
+        )
+
+
 # SPONSER MODEL
 class Sponser(models.Model):
     SPONSER_TYPE = (
@@ -27,6 +46,19 @@ class Sponser(models.Model):
         validators=[isalphavalidator],
     )
     amount = models.BigIntegerField(null=False, blank=False)
+    photo = models.ImageField(
+        upload_to=category_image_dir_path,
+        blank=True,
+    )
+
+    def dymanic_amount_value(self):
+        value = self.sponser_type
+        print(value)
+        if value == "title sponser":
+            return 10000
+
+    def get_dynamic_amount(self):
+        return self.dymanic_amount_value
 
     def __str__(self):
         return self.name
@@ -76,6 +108,7 @@ class Event(models.Model):
     entry_fee = models.BigIntegerField(null=False, blank=False)
     sponser = models.ManyToManyField(Sponser, blank=True, null=True)
     event_completed = models.BooleanField(default=False)
+    remaining_capacity = models.PositiveBigIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.event_name

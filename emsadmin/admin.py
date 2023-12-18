@@ -9,6 +9,7 @@ class SponserAdmin(admin.ModelAdmin):
         "id",
         "sponser_type",
         "name",
+        "photo",
         "amount",
     )
 
@@ -26,6 +27,7 @@ class EventAdmin(admin.ModelAdmin):
         # "artist",
         "location",
         "capacity",
+        "remaining_capacity",
         "entry_fee",
         # "sponser",
         "event_completed",

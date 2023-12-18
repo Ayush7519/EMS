@@ -6,6 +6,8 @@ from .models import Content_Management, Heading
 # Content_management
 # creating the serializer for the content_management.
 class Content_ManagementSerializer(serializers.ModelSerializer):
+    # heading = serializers.StringRelatedField()
+
     class Meta:
         model = Content_Management
         fields = "__all__"

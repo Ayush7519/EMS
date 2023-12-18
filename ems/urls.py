@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("account.urls")),
     path("", include("content_management.urls")),
     path("", include("emsadmin.urls")),
+    path("", include("booking.urls")),
     # for the swagger documentations.
     path(
         "swagger/",

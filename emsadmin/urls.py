@@ -45,6 +45,11 @@ urlpatterns = [
         name="event details list path",
     ),
     path(
+        "event/update/<int:pk>/",
+        views.EventUpdateApiView.as_view(),
+        name="event update path,",
+    ),
+    path(
         "event/delete/<int:pk>/",
         views.EventDeleteApiView.as_view(),
         name="event delete path",
@@ -58,5 +63,10 @@ urlpatterns = [
         "event/choice/<str:choice>/",
         views.EventOptionApiView.as_view(),
         name="yesma chai aaja ko rw aaja paxi ko event ko list matrw aauxa",
+    ),
+    path(
+        "login/user/event/detail/<str:name>/",
+        views.LoginUserEventDetailsApiView.as_view(),
+        name="login user event detail view path",
     ),
 ]

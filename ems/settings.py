@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "rest_framework",  # install package name.
     "django_filters",  # install package name.
     "drf_yasg",  # for the documentation of the api.
+    "booking",  # application name
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from rest_framework import generics, status
+from rest_framework import generics, permissions, status
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 
 from account.renders import UserRenderer
 from ems.pagination import MyPageNumberPagination
+from ems.permission import IsArtistUser
 
 from .models import Artist, Event, Sponser
 from .serializer import (
@@ -67,6 +68,8 @@ class EventCreateApiView(generics.CreateAPIView):
         serializer = Event_Serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             artist_value = serializer.validated_data["artist"]
+            capacity = serializer.validated_data["capacity"]
+            serializer.validated_data["remaining_capacity"] = capacity
             print(artist_value)
             for art_data in artist_value:
                 print(art_data)
@@ -109,7 +112,15 @@ class EventCompleteApiView(APIView):
             # print(art_id)
             try:
                 artist_info = Artist.objects.get(id=art_id)
-                artist_info.is_available = True
+                current_date = datetime.now()
+                artist_data = Event.objects.filter(
+                    artist=artist_info,
+                    date__gt=current_date,
+                ).exists()
+                if artist_data:
+                    artist_info.is_available = False
+                else:
+                    artist_info.is_available = True
                 artist_info.save()
 
             except Artist.DoesNotExist:
@@ -129,7 +140,7 @@ class EventCompleteApiView(APIView):
 
 # Event List.
 class EventListApiView(generics.ListAPIView):
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().order_by("-date", "-time")
     serializer_class = EventList_Serializer
     pagination_class = MyPageNumberPagination
     renderer_classes = [UserRenderer]
@@ -138,8 +149,8 @@ class EventListApiView(generics.ListAPIView):
 # Event Search.
 # this is for the front end user so they can search the event based on their desire.
 class EventSearchApiView(generics.ListAPIView):
-    queryset = Event.objects.all()
-    serializer_class = Event_Serializer
+    queryset = Event.objects.all().order_by("-date", "-time")
+    serializer_class = EventList_Serializer
     filter_backends = [SearchFilter]
     search_fields = [
         "event_name",
@@ -185,6 +196,13 @@ class EventDeleteApiView(APIView):
             {"msg": "Data has been sucessfully deleted."},
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
+# event update view.
+class EventUpdateApiView(generics.UpdateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = Event_Serializer
+    renderer_classes = [UserRenderer]
 
 
 # event data based on today ad upcomming.
@@ -233,3 +251,44 @@ class EventOptionApiView(APIView, PageNumberPagination):
 
         else:
             return Response("oops you entered the wrong data")
+
+
+# login user(artist) event details view for the dashboard.
+class LoginUserEventDetailsApiView(generics.ListAPIView):
+    serializer_class = EventList_Serializer
+    permission_classes = [IsArtistUser]
+
+    def get_queryset(self):
+        name = self.kwargs["name"]
+        user = self.request.user
+        user_artist = user.artist.id
+        current_date = datetime.now()
+        next_day_current_date = current_date + timedelta(days=1)
+        print(user_artist)
+        if name == "All":
+            return Event.objects.filter(artist=user_artist)
+        elif name == "Complete":
+            return Event.objects.filter(
+                artist=user_artist,
+                event_completed=True,
+            )
+        elif name == "Pending":
+            return Event.objects.filter(
+                artist=user_artist,
+                event_completed=False,
+            )
+        elif name == "Today":
+            return Event.objects.filter(
+                artist=user_artist,
+                date=current_date,
+            )
+        elif name == "Tomorrow":
+            return Event.objects.filter(
+                artist=user_artist,
+                date=next_day_current_date,
+            )
+        elif name == "Upcome":
+            return Event.objects.filter(
+                artist=user_artist,
+                date__gt=next_day_current_date,
+            ).order_by("date")
