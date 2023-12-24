@@ -1,10 +1,9 @@
 
-echo "BUILD START"
+echo "BUILD START"÷
 
-# Install project dependencies
-python3.10 -m pip install -r requirements.txt
+# python3.10 -m pip install -r requirements.txt
+pip install -r requirements.txt
 
-# Collect static files to the correct output directory
-python3.10 manage.py collectstatic --noinput --clear --directory staticfiles_build
-
-echo "BUILD END"
+# python3.10 manage.py collectstatic --noinput --clear --directory staticfiles_build
+python3.10 manage.py collectstatic 
+# echo "BUILD END"
