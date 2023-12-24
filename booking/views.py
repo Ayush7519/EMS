@@ -1,5 +1,8 @@
-from datetime import datetime
+from collections import defaultdict
+from datetime import datetime, timedelta
 
+from dateutil.relativedelta import relativedelta
+from django.db.models import Sum
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from rest_framework import generics, permissions, status
@@ -12,6 +15,8 @@ from booking.serializer import (
     TicketCreateSerializer,
     UserBookedTicket_Serializer,
 )
+from ems.permission import IsArtistUser
+from emsadmin.models import Artist
 
 from .models import Event, Ticket
 
@@ -63,6 +68,9 @@ class TicketCreateApiView(generics.CreateAPIView):
                 event_data.remaining_capacity = rm_ticket
                 event_data.save()
             serializer.save()
+            # this should be done after the payment is sucessfully done.
+            event_data.no_of_participant = qtn
+            event_data.save()
             user = request.user
             # data for the front-end
             fdata = serializer.data
@@ -105,3 +113,46 @@ class UserBookedTicketApiView(generics.ListAPIView):
                 {"msg": "Oops! You Have Not Booked Any Event...!!!"},
                 status=status.HTTP_404_NOT_FOUND,
             )
+
+
+# graph data process.
+class GraphAPI(APIView):
+    permission_classes = [IsArtistUser]
+
+    def get(self, request):
+        us = self.request.user.id
+        try:
+            artuser = Artist.objects.get(user_id=us)
+        except Artist.DoesNotExist:
+            return Response(
+                {
+                    "msg": f"Oops no artist is available in our database with id {us}"
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        today = datetime.now().date()
+        data_list = []  # List to store data for all months
+
+        for i in range(12):
+            end_day = today - relativedelta(months=i)  # aaja ko
+            onemonth = end_day - timedelta(days=30)
+
+            artist_one_month_data = Event.objects.filter(
+                artist=artuser,
+                date__gt=onemonth,
+                date__lte=end_day,
+            )
+
+            monthly_participants = defaultdict(int)
+            for event in artist_one_month_data:
+                month_year = event.date.strftime("%B %Y")  # Format: Month Year
+                monthly_participants[month_year] += event.no_of_participant
+
+            # Extract labels and values for the current month
+            labels = list(monthly_participants.keys())
+            values = list(monthly_participants.values())
+            data_list.append({"labels": labels, "values": values})
+
+        # Return the data for all months
+        return Response(data_list)

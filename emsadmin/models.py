@@ -109,6 +109,11 @@ class Event(models.Model):
     sponser = models.ManyToManyField(Sponser, blank=True, null=True)
     event_completed = models.BooleanField(default=False)
     remaining_capacity = models.PositiveBigIntegerField(null=True, blank=True)
+    no_of_participant = models.PositiveBigIntegerField(
+        default=0,
+        null=False,
+        blank=False,
+    )
 
     def __str__(self):
         return self.event_name

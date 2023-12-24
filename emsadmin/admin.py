@@ -31,6 +31,7 @@ class EventAdmin(admin.ModelAdmin):
         "entry_fee",
         # "sponser",
         "event_completed",
+        "no_of_participant",
     )
 
 
