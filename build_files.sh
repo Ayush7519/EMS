@@ -5,5 +5,5 @@ echo "BUILD START"÷
 pip install -r requirements.txt
 
 # python3.10 manage.py collectstatic --noinput --clear --directory staticfiles_build
-python3.10 manage.py collectstatic 
+python manage.py collectstatic 
 # echo "BUILD END"
