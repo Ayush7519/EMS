@@ -114,32 +114,32 @@ urlpatterns = [
         views.NormalUserDeleteApiView.as_view(),
         name="normal user delete path",
     ),
-    # MANAGER PATHS.
-    path(
-        "manager/create/",
-        views.ManagerCreateApiViews.as_view(),
-        name="manager create path",
-    ),
-    path(
-        "manager/list/",
-        views.ManagerListApiViews.as_view(),
-        name="manager list path",
-    ),
-    path(
-        "manager/search/",
-        views.ManagerSearchApiViews.as_view(),
-        name="manager search path",
-    ),
-    path(
-        "manager/update/<int:pk>/",
-        views.ManagerUpdateApiViews.as_view(),
-        name="manager update path",
-    ),
-    path(
-        "manager/delete/<int:pk>/",
-        views.ManagerDeleteApiViews.as_view(),
-        name="manager delete path",
-    ),
+    # # MANAGER PATHS.
+    # path(
+    #     "manager/create/",
+    #     views.ManagerCreateApiViews.as_view(),
+    #     name="manager create path",
+    # ),
+    # path(
+    #     "manager/list/",
+    #     views.ManagerListApiViews.as_view(),
+    #     name="manager list path",
+    # ),
+    # path(
+    #     "manager/search/",
+    #     views.ManagerSearchApiViews.as_view(),
+    #     name="manager search path",
+    # ),
+    # path(
+    #     "manager/update/<int:pk>/",
+    #     views.ManagerUpdateApiViews.as_view(),
+    #     name="manager update path",
+    # ),
+    # path(
+    #     "manager/delete/<int:pk>/",
+    #     views.ManagerDeleteApiViews.as_view(),
+    #     name="manager delete path",
+    # ),
     # route to send the mail to the indivisual artist.
     path(
         "send-email/<int:pk>/",

@@ -181,20 +181,20 @@ class NormalUser_Serializer_Full_Detals(serializers.ModelSerializer):
         depth = 1
 
 
-# MANAGER SERIALIZER.
-# creating the serializer for the manager.
-class Managers_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Managers
-        fields = "__all__"
+# # MANAGER SERIALIZER.
+# # creating the serializer for the manager.
+# class Managers_Serializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Managers
+#         fields = "__all__"
 
 
-# listing all the data form the relations.
-class Managers_Serializer_Full_Detals(serializers.ModelSerializer):
-    class Meta:
-        model = Managers
-        fields = "__all__"
-        depth = 2
+# # listing all the data form the relations.
+# class Managers_Serializer_Full_Detals(serializers.ModelSerializer):
+#     class Meta:
+#         model = Managers
+#         fields = "__all__"
+#         depth = 2
 
 
 # USER Profile

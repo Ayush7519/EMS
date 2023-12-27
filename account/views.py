@@ -17,13 +17,11 @@ from ems.pagination import MyPageNumberPagination
 
 from .models import Artist, Managers, NormalUser, User
 from .serializer import Artist_Serializer  # UserDetail_Serializer,
-from .serializer import (
+from .serializer import (  # Managers_Serializer,; Managers_Serializer_Full_Detals,
     Alluserdelete_Serializer,
     AllUserList_Serializer,
     Artist_Serializer_Full_Details,
     ArtistLoginProfileFull_Serializer,
-    Managers_Serializer,
-    Managers_Serializer_Full_Detals,
     NormalUser_Serializer,
     NormalUser_Serializer_Full_Detals,
     NormalUserLoginProfileFull_Serializer,
@@ -443,47 +441,47 @@ class NormalUserDeleteApiView(generics.DestroyAPIView):
     renderer_classes = [UserRenderer]
 
 
-# MANAGER
-# manager create.
-class ManagerCreateApiViews(generics.CreateAPIView):
-    queryset = Managers.objects.all()
-    serializer_class = Managers_Serializer
-    renderer_classes = [UserRenderer]
+# # MANAGER
+# # manager create.
+# class ManagerCreateApiViews(generics.CreateAPIView):
+#     queryset = Managers.objects.all()
+#     serializer_class = Managers_Serializer
+#     renderer_classes = [UserRenderer]
 
 
-# managers list.
-class ManagerListApiViews(generics.ListAPIView):
-    queryset = Managers.objects.all()
-    serializer_class = Managers_Serializer_Full_Detals
-    pagination_class = MyPageNumberPagination
-    permission_classes = [permissions.IsAuthenticated]
+# # managers list.
+# class ManagerListApiViews(generics.ListAPIView):
+#     queryset = Managers.objects.all()
+#     serializer_class = Managers_Serializer_Full_Detals
+#     pagination_class = MyPageNumberPagination
+#     permission_classes = [permissions.IsAuthenticated]
 
 
-# manager search.
-class ManagerSearchApiViews(generics.ListAPIView):
-    queryset = Managers.objects.all()
-    serializer_class = Managers_Serializer_Full_Detals
-    filter_backends = [SearchFilter]
-    search_fields = [
-        "name",
-        "artist__user__name",
-        "artist__user__username",
-    ]
-    pagination_class = MyPageNumberPagination
-    permission_classes = [permissions.IsAuthenticated]
+# # manager search.
+# class ManagerSearchApiViews(generics.ListAPIView):
+#     queryset = Managers.objects.all()
+#     serializer_class = Managers_Serializer_Full_Detals
+#     filter_backends = [SearchFilter]
+#     search_fields = [
+#         "name",
+#         "artist__user__name",
+#         "artist__user__username",
+#     ]
+#     pagination_class = MyPageNumberPagination
+#     permission_classes = [permissions.IsAuthenticated]
 
 
-# manager update.
-class ManagerUpdateApiViews(generics.UpdateAPIView):
-    queryset = Managers.objects.all()
-    serializer_class = Managers_Serializer
-    permission_classes = [permissions.IsAuthenticated]
-    renderer_classes = [UserRenderer]
+# # manager update.
+# class ManagerUpdateApiViews(generics.UpdateAPIView):
+#     queryset = Managers.objects.all()
+#     serializer_class = Managers_Serializer
+#     permission_classes = [permissions.IsAuthenticated]
+#     renderer_classes = [UserRenderer]
 
 
-# manager delete.
-class ManagerDeleteApiViews(generics.DestroyAPIView):
-    queryset = Managers.objects.all()
-    serializer_class = Managers_Serializer
-    permission_classes = [permissions.IsAuthenticated]
-    renderer_classes = [UserRenderer]
+# # manager delete.
+# class ManagerDeleteApiViews(generics.DestroyAPIView):
+#     queryset = Managers.objects.all()
+#     serializer_class = Managers_Serializer
+#     permission_classes = [permissions.IsAuthenticated]
+#     renderer_classes = [UserRenderer]
