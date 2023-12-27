@@ -28,7 +28,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", ".vercel.app", ".now.sh"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -130,8 +130,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 # for the static file.
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
+STATIC_ROOT = (os.path.join(BASE_DIR, "static"),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -140,12 +139,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # USER MODEL REGISTRSTION:
 AUTH_USER_MODEL = "account.User"
-
-# # email tasting using the mail trap.
-# EMAIL_HOST = "smtp.mailtrap.io"
-# EMAIL_HOST_USER = "fd0c96a1ebe6af"
-# EMAIL_HOST_PASSWORD = "756ebac815af5b"
-# EMAIL_PORT = "2525"
 
 # email testing using the gmail.
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
