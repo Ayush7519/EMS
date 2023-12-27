@@ -3,12 +3,8 @@
 import os
 import sys
 
-# import dotenv
-
 
 def main():
-    # integrating the dotenv setting in the project
-    # dotenv.read_dotenv()
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ems.settings")
     try:
