@@ -106,7 +106,7 @@ class Event(models.Model):
     location = models.CharField(max_length=100, null=False, blank=False)
     capacity = models.BigIntegerField(null=False, blank=False)
     entry_fee = models.BigIntegerField(null=False, blank=False)
-    sponser = models.ManyToManyField(Sponser, blank=True, null=True)
+    sponser = models.ManyToManyField(Sponser)
     event_completed = models.BooleanField(default=False)
     remaining_capacity = models.PositiveBigIntegerField(null=True, blank=True)
     no_of_participant = models.PositiveBigIntegerField(

@@ -88,7 +88,7 @@ class TicketCreateApiView(generics.CreateAPIView):
             )
 
 
-# login user profile part for the history of the ticket booking.
+# login (normal)user profile part for the history of the ticket booking.
 class UserBookedTicketApiView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserBookedTicket_Serializer
